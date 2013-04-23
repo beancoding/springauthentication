@@ -49,7 +49,6 @@ public class HomeController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String home(Model model) {
-		logger.info("Server started");
 		
 		model.addAttribute("customer", new Customer());
 		
@@ -58,7 +57,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(@Valid @ModelAttribute Customer customer, BindingResult result, Model model) {
-		logger.info("Server started");
+		logger.info("Registering user");
 				
 		if(result.hasErrors()){
 			return "register";
@@ -76,6 +75,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/success",method=RequestMethod.GET)
 	public String success(Model model){
+		logger.info("Getting logged in users details");
+		
 		UserDetailsImpl user = (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		model.addAttribute("userName",user.getUsername());
 		return "success";
