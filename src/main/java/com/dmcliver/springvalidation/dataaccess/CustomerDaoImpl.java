@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +52,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	@Transactional
 	public void save(Customer customer) {
-		String password = passwordEncoder.encodePassword(customer.getPassword(), customer.getUserName());
+		String password = passwordEncoder.encode(customer.getPassword());
 		Session session = sessionFactory.getCurrentSession();
 		customer.setPassword(password);
 		session.save(customer);

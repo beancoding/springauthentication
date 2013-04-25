@@ -20,20 +20,20 @@
    		<beans:property name="customerDao" ref="customerDao"/>
    	</beans:bean>
 
-	 <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
-	     <beans:constructor-arg value="256"/>
+	<!-- Standard provider automatically salts our passwords for us using sha256, you can also use org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder which can be more difficult to crack -->
+	 <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
 	 </beans:bean>
 
+	<!-- Not needed see above
 	<beans:bean id="saltSource"
 	    class="org.springframework.security.authentication.dao.ReflectionSaltSource"
 	    p:userPropertyToUse="username" />
-
+	 -->
+	
 	<sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider user-service-ref="userDetailsService">
-            <sec:password-encoder hash="sha" ref="passwordEncoder">
-                <sec:salt-source ref="saltSource"></sec:salt-source>
-            </sec:password-encoder>
-        </sec:authentication-provider>
+            <sec:password-encoder ref="passwordEncoder"/>
+      	</sec:authentication-provider>
     </sec:authentication-manager>
     
 </beans:beans>
